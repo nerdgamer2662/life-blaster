@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Shooter.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Textures/real_enemy_better.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/BetterEnemy.gd" type="Script" id=3]
+[ext_resource path="res://SFX Samples/death.wav" type="AudioStream" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 64, 64 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="BetterEnemy" type="KinematicBody2D"]
+pause_mode = 1
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="RightShooter" parent="." instance=ExtResource( 1 )]
+position = Vector2( 70, 50 )
+
+[node name="LeftShooter" parent="." instance=ExtResource( 1 )]
+position = Vector2( 70, -50 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="LookPoint" type="Node2D" parent="."]
+position = Vector2( 70, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/death = SubResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
